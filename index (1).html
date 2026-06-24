@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Hub — PL-300 & DP-700</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2435;
+    --card: #1a2033;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --muted: #7b8299;
+    --accent: #5b8af0;
+    --accent2: #3d6ce0;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --coral: #f97316;
+    --purple: #a78bfa;
+    --teal: #14b8a6;
+    --pink: #ec4899;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* LAYOUT */
+  .shell { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .logo {
+    padding: 0 18px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .logo h1 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .logo span { font-size: 11px; color: var(--muted); }
+  
+  .nav-section { padding: 8px 12px 4px; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+  
+  .nav-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 18px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    transition: all .15s;
+    border-left: 2px solid transparent;
+    margin: 1px 0;
+  }
+  .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(91,138,240,0.08); }
+  .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+  
+  .progress-sidebar {
+    margin: auto 18px 18px;
+    padding: 12px;
+    background: var(--bg3);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .progress-sidebar label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 6px; }
+  .progress-mini-bar { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+  .progress-mini-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .4s; }
+  .progress-pct { font-size: 13px; font-weight: 600; color: var(--text); margin-top: 4px; }
+
+  /* MAIN */
+  .main { flex: 1; overflow: auto; }
+  .view { display: none; padding: 32px; max-width: 900px; }
+  .view.active { display: block; }
+
+  /* HEADER */
+  .view-header { margin-bottom: 28px; }
+  .view-header h2 { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .view-header p { color: var(--muted); font-size: 13px; }
+  .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .card-sm { padding: 14px 16px; }
+  .card h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+
+  /* DOMAIN PILLS */
+  .domain-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .domain-pill {
+    padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 1px solid transparent; transition: all .15s;
+  }
+  .dp-blue { background: rgba(91,138,240,0.12); color: #7aa3f5; border-color: rgba(91,138,240,0.2); }
+  .dp-amber { background: rgba(245,158,11,0.12); color: #fbbf24; border-color: rgba(245,158,11,0.2); }
+  .dp-teal { background: rgba(20,184,166,0.12); color: #34d399; border-color: rgba(20,184,166,0.2); }
+  .dp-coral { background: rgba(249,115,22,0.12); color: #fb923c; border-color: rgba(249,115,22,0.2); }
+  .dp-blue.active, .dp-blue:hover { background: rgba(91,138,240,0.25); }
+  .dp-amber.active, .dp-amber:hover { background: rgba(245,158,11,0.25); }
+  .dp-teal.active, .dp-teal:hover { background: rgba(20,184,166,0.25); }
+  .dp-coral.active, .dp-coral:hover { background: rgba(249,115,22,0.25); }
+
+  /* EXAM PROGRESS RINGS */
+  .stat-row { display: flex; gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 16px; text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 600; color: var(--text); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .stat-accent-blue .stat-num { color: var(--accent); }
+  .stat-accent-green .stat-num { color: var(--green); }
+  .stat-accent-amber .stat-num { color: var(--amber); }
+
+  /* CHECKLIST */
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid var(--border2); flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+  }
+  .checklist-item.done .check-box {
+    background: var(--green); border-color: var(--green); color: #000;
+    font-size: 11px;
+  }
+  .checklist-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+  .check-label { font-size: 13px; color: var(--text); }
+  .check-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* WEEK TIMELINE */
+  .week-block { display: flex; gap: 16px; margin-bottom: 16px; }
+  .week-line { display: flex; flex-direction: column; align-items: center; }
+  .week-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .week-connector { flex: 1; width: 2px; background: var(--border); margin: 4px 0; }
+  .week-content { flex: 1; padding-bottom: 8px; }
+  .week-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .week-date { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .week-tasks { }
+  .wtask { font-size: 12px; color: var(--muted); padding: 3px 0; display: flex; align-items: flex-start; gap: 6px; }
+  .wtask::before { content: '›'; color: var(--accent); font-weight: 600; margin-top: 1px; flex-shrink: 0; }
+
+  /* THEORY SECTION */
+  .concept-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden;
+  }
+  .concept-header {
+    padding: 14px 16px; cursor: pointer; display: flex;
+    align-items: center; justify-content: space-between;
+    transition: background .15s;
+  }
+  .concept-header:hover { background: rgba(255,255,255,0.03); }
+  .concept-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .concept-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .concept-body { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; }
+  .concept-body.open { max-height: 600px; padding: 0 16px 16px; }
+  .concept-body p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+  .concept-body strong { color: var(--text); }
+  .code-block {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 12px; margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a8d8f0;
+    overflow-x: auto; white-space: pre;
+  }
+  .tip { background: rgba(91,138,240,0.08); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 10px 12px; margin: 8px 0; font-size: 12px; color: var(--muted); }
+  .tip strong { color: var(--accent); }
+  .warn { background: rgba(245,158,11,0.08); border-left: 3px solid var(--amber); border-radius: 0 6px 6px 0; padding: 10px 12px; margin: 8px 0; font-size: 12px; color: var(--muted); }
+  .warn strong { color: var(--amber); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 600; margin-right: 6px; }
+  .b-blue { background: rgba(91,138,240,0.2); color: #7aa3f5; }
+  .b-amber { background: rgba(245,158,11,0.2); color: #fbbf24; }
+  .b-green { background: rgba(34,197,94,0.2); color: #4ade80; }
+  .b-coral { background: rgba(249,115,22,0.2); color: #fb923c; }
+  .b-purple { background: rgba(167,139,250,0.2); color: #c4b5fd; }
+  .b-teal { background: rgba(20,184,166,0.2); color: #34d399; }
+  .chevron { color: var(--muted); font-size: 12px; transition: transform .2s; }
+  .chevron.open { transform: rotate(90deg); }
+  .tag-freq { float: right; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 99px; }
+  .freq-high { background: rgba(249,115,22,0.2); color: #fb923c; }
+  .freq-med { background: rgba(245,158,11,0.2); color: #fbbf24; }
+
+  /* QUIZ */
+  .quiz-container { }
+  .quiz-q { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 16px; font-weight: 500; }
+  .quiz-opt {
+    padding: 11px 14px; border-radius: var(--radius); border: 1px solid var(--border);
+    margin-bottom: 8px; cursor: pointer; font-size: 13px; color: var(--muted);
+    transition: all .15s; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .quiz-opt:hover { border-color: var(--accent); color: var(--text); background: rgba(91,138,240,0.06); }
+  .quiz-opt.correct { border-color: var(--green); background: rgba(34,197,94,0.1); color: var(--green); }
+  .quiz-opt.wrong { border-color: #ef4444; background: rgba(239,68,68,0.1); color: #f87171; }
+  .quiz-opt.disabled { pointer-events: none; }
+  .opt-letter { font-weight: 600; font-family: 'JetBrains Mono', monospace; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+  .quiz-explain { background: var(--bg3); border-radius: var(--radius); padding: 12px 14px; margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.7; display: none; }
+  .quiz-explain strong { color: var(--text); }
+  .quiz-explain.show { display: block; }
+  .quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .quiz-progress-text { font-size: 12px; color: var(--muted); }
+  .btn {
+    padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border2);
+    background: transparent; color: var(--text); font-size: 13px; cursor: pointer;
+    transition: all .15s; font-family: inherit;
+  }
+  .btn:hover { background: rgba(255,255,255,0.06); }
+  .btn-primary { background: var(--accent); border-color: var(--accent2); color: #fff; }
+  .btn-primary:hover { background: var(--accent2); }
+  .quiz-score-wrap { text-align: center; padding: 32px; }
+  .score-big { font-size: 56px; font-weight: 600; }
+  .score-label { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  /* RESOURCES */
+  .resource-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .resource-row:last-child { border-bottom: none; }
+  .res-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .res-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .res-url { font-size: 12px; color: var(--accent); text-decoration: none; }
+  .res-url:hover { text-decoration: underline; }
+  .res-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* PROGRESS BAR GLOBAL */
+  .pbar-wrap { margin-bottom: 8px; }
+  .pbar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .pbar-bg { height: 6px; background: var(--border2); border-radius: 3px; overflow: hidden; }
+  .pbar-fill { height: 100%; border-radius: 3px; transition: width .5s ease; }
+
+  /* SEPARADOR */
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* BOTTOM NAV (mobile only) */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav-inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+  }
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 2px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 10px;
+    gap: 3px;
+    transition: color .15s;
+    min-height: 52px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bnav-item .bicon { font-size: 19px; line-height: 1; }
+  .bnav-item.active { color: var(--accent); }
+  .bnav-item span { white-space: nowrap; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .bottom-nav { display: block; }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .view { padding: 16px; padding-bottom: 84px; }
+    .view-header h2 { font-size: 18px; }
+    .stat-card { padding: 12px; }
+    .stat-num { font-size: 22px; }
+    .week-block { gap: 12px; }
+    .week-dot { width: 26px; height: 26px; font-size: 11px; }
+    .code-block { font-size: 11px; overflow-x: auto; }
+    .concept-title { font-size: 12px; }
+    .res-icon { display: none; }
+    .quiz-opt { padding: 9px 12px; }
+    .score-big { font-size: 42px; }
+    .shell { flex-direction: column; }
+    .main { width: 100%; }
+    .tag-freq { display: none; }
+  }
+
+  @media (max-width: 400px) {
+    .stat-row { grid-template-columns: 1fr; }
+    .view { padding: 12px; padding-bottom: 84px; }
+    .domain-pill { font-size: 11px; padding: 4px 9px; }
+    .badge { font-size: 9px; padding: 1px 6px; }
+  }
+  .exam-tab {
+    flex: 1; text-align: center; padding: 5px 8px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; cursor: pointer; color: var(--muted);
+    border: 1px solid var(--border); transition: all .15s;
+  }
+  .exam-tab.active { background: var(--accent); color: #fff; border-color: var(--accent2); }
+  .exam-tab-dp { }
+  .exam-tab-dp.active { background: #7c3aed; border-color: #6d28d9; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo">
+    <h1>Cert Study Hub</h1>
+    <div style="display:flex;gap:6px;margin-top:8px">
+      <div class="exam-tab active" id="etab-pl300" onclick="switchExam('pl300')">PL-300</div>
+      <div class="exam-tab" id="etab-dp700" onclick="switchExam('dp700')">DP-700</div>
+    </div>
+  </div>
+  <div id="sidebar-pl300">
+  <div class="nav-section">Estudio</div>
+  <div class="nav-item active" onclick="go('dashboard')"><span class="icon">🏠</span> Dashboard</div>
+  <div class="nav-item" onclick="go('plan')"><span class="icon">📅</span> Plan semanal</div>
+  <div class="nav-item" onclick="go('teoria')"><span class="icon">📖</span> Teoría clave</div>
+  <div class="nav-item" onclick="go('quiz')"><span class="icon">🧪</span> Quiz de práctica</div>
+  <div class="nav-section">Referencia</div>
+  <div class="nav-item" onclick="go('dax')"><span class="icon">🔢</span> DAX cheatsheet</div>
+  <div class="nav-item" onclick="go('recursos')"><span class="icon">🔗</span> Recursos</div>
+  </div>
+  <div id="sidebar-dp700" style="display:none">
+  <div class="nav-section">Estudio</div>
+  <div class="nav-item" onclick="go('dp-dashboard')"><span class="icon">🏠</span> Dashboard</div>
+  <div class="nav-item" onclick="go('dp-plan')"><span class="icon">📅</span> Plan semanal</div>
+  <div class="nav-item" onclick="go('dp-teoria')"><span class="icon">📖</span> Conceptos clave</div>
+  <div class="nav-item" onclick="go('dp-quiz')"><span class="icon">🧪</span> Quiz de práctica</div>
+  <div class="nav-section">Referencia</div>
+  <div class="nav-item" onclick="go('dp-kql')"><span class="icon">⚡</span> KQL cheatsheet</div>
+  <div class="nav-item" onclick="go('dp-recursos')"><span class="icon">🔗</span> Recursos</div>
+  </div>
+  <div class="progress-sidebar" id="sidebar-progress">
+    <label>Tu progreso</label>
+    <div class="progress-mini-bar">
+      <div class="progress-mini-fill" id="mini-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-pct" id="mini-pct">0 / 0 temas</div>
+  </div>
+</nav>
+
+<!-- BOTTOM NAV (mobile) -->
+<div class="bottom-nav">
+  <div class="bottom-nav-inner" id="bnav-pl300">
+    <div class="bnav-item active" onclick="go('dashboard')" id="bnav-dashboard">
+      <span class="bicon">🏠</span><span>Inicio</span>
+    </div>
+    <div class="bnav-item" onclick="go('plan')" id="bnav-plan">
+      <span class="bicon">📅</span><span>Plan</span>
+    </div>
+    <div class="bnav-item" onclick="go('teoria')" id="bnav-teoria">
+      <span class="bicon">📖</span><span>Teoría</span>
+    </div>
+    <div class="bnav-item" onclick="go('quiz')" id="bnav-quiz">
+      <span class="bicon">🧪</span><span>Quiz</span>
+    </div>
+    <div class="bnav-item" onclick="go('dax')" id="bnav-dax">
+      <span class="bicon">🔢</span><span>DAX</span>
+    </div>
+    <div class="bnav-item" onclick="go('recursos')" id="bnav-recursos">
+      <span class="bicon">🔗</span><span>Links</span>
+    </div>
+  </div>
+  <div class="bottom-nav-inner" id="bnav-dp700" style="display:none">
+    <div class="bnav-item active" onclick="go('dp-dashboard')" id="bnav-dp-dashboard">
+      <span class="bicon">🏠</span><span>Inicio</span>
+    </div>
+    <div class="bnav-item" onclick="go('dp-plan')" id="bnav-dp-plan">
+      <span class="bicon">📅</span><span>Plan</span>
+    </div>
+    <div class="bnav-item" onclick="go('dp-teoria')" id="bnav-dp-teoria">
+      <span class="bicon">📖</span><span>Conceptos</span>
+    </div>
+    <div class="bnav-item" onclick="go('dp-quiz')" id="bnav-dp-quiz">
+      <span class="bicon">🧪</span><span>Quiz</span>
+    </div>
+    <div class="bnav-item" onclick="go('dp-kql')" id="bnav-dp-kql">
+      <span class="bicon">⚡</span><span>KQL</span>
+    </div>
+    <div class="bnav-item" onclick="go('dp-recursos')" id="bnav-dp-recursos">
+      <span class="bicon">🔗</span><span>Links</span>
+    </div>
+  </div>
+</div>
+<main class="main">
+
+<!-- ===== DASHBOARD ===== -->
+<div id="view-dashboard" class="view active">
+  <div class="eyebrow">Bienvenido</div>
+  <div class="view-header">
+    <h2>Tu hub PL-300 📊</h2>
+    <p>Preparación enfocada para alguien con experiencia práctica en Power BI. Faltan <strong id="days-left">?</strong> días para el examen. <span id="edit-date-wrap" style="font-size:12px;color:var(--accent);cursor:pointer" onclick="promptDate()">✏️ cambiar fecha</span></p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card stat-accent-blue">
+      <div class="stat-num" id="days-stat">—</div>
+      <div class="stat-label">días hasta el examen</div>
+    </div>
+    <div class="stat-card stat-accent-green">
+      <div class="stat-num" id="done-stat">0</div>
+      <div class="stat-label">temas completados</div>
+    </div>
+    <div class="stat-card stat-accent-amber">
+      <div class="stat-num">700</div>
+      <div class="stat-label">puntos mínimos para aprobar</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">100'</div>
+      <div class="stat-label">minutos de examen</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>📊 Distribución del examen</h3>
+      <div class="pbar-wrap" style="margin-top:10px">
+        <div class="pbar-label"><span>Preparar datos</span><span>25–30%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:27%;background:var(--accent)"></div></div>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-label"><span>Modelar datos (DAX)</span><span>25–30%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:27%;background:var(--amber)"></div></div>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-label"><span>Visualizar y analizar</span><span>25–30%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:27%;background:var(--teal)"></div></div>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-label"><span>Gestionar y asegurar</span><span>15–20%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:17%;background:var(--coral)"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚡ Acción inmediata</h3>
+      <div style="margin-top:8px">
+        <div class="checklist-item" onclick="toggleCheck(this)" id="c0">
+          <div class="check-box">✓</div>
+          <div><div class="check-label">Leer el Study Guide oficial</div><div class="check-sub">learn.microsoft.com › study-guides/pl-300</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="c1">
+          <div class="check-box"></div>
+          <div><div class="check-label">Hacer el Practice Assessment (sin estudiar)</div><div class="check-sub">Para saber dónde estás débil</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="c2">
+          <div class="check-box"></div>
+          <div><div class="check-label">Instalar Power BI Desktop (si no tenés)</div><div class="check-sub">powerbi.microsoft.com/desktop</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="c3">
+          <div class="check-box"></div>
+          <div><div class="check-label">Ver los 4 videos Exam Readiness</div><div class="check-sub">Microsoft Learn › Exam Readiness Zone</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💡 Tu ventaja como practicante</h3>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:6px">
+      Con 2 años de Power BI, ya dominás la herramienta. El examen evalúa que conozcas el <strong style="color:var(--text)">nombre formal</strong> de lo que hacés y los <strong style="color:var(--text)">escenarios de decisión</strong> (¿cuándo usar Import vs DirectQuery? ¿cuándo RLS en Desktop vs Service?). Tu estudio debe enfocarse en poner palabras a la teoría detrás de lo que ya hacés por intuición.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <span class="badge b-green">✓ Conocés la UI</span>
+      <span class="badge b-green">✓ Sabés crear reportes</span>
+      <span class="badge b-amber">⚡ Necesitás: terminología formal</span>
+      <span class="badge b-amber">⚡ Necesitás: DAX teórico</span>
+      <span class="badge b-blue">→ Foco: storage modes, RLS, gateway</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PLAN ===== -->
+<div id="view-plan" class="view">
+  <div class="eyebrow">Cronograma</div>
+  <div class="view-header">
+    <h2>Plan semanal 📅</h2>
+    <p>Viernes + sábados como días principales. Mini-repasos los días entre semana.</p>
+  </div>
+
+  <!-- Semana 0 -->
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(20,184,166,0.2);color:var(--teal)">0</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana de arranque — esta semana</div>
+      <div class="week-date">Cualquier día · ~2 hs</div>
+      <div class="week-tasks">
+        <div class="wtask">Leer Study Guide oficial completo (imprimilo o guardalo)</div>
+        <div class="wtask">Hacer el Practice Assessment sin estudiar — anotá tus puntajes por dominio</div>
+        <div class="wtask">Ver los 4 videos Exam Readiness Zone en Microsoft Learn (~1 hora total)</div>
+        <div class="wtask">Crear cuenta gratuita en Power BI Service (si no tenés)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semana 1 -->
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(91,138,240,0.2);color:var(--accent)">1</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 1 — Preparar datos <span class="badge b-blue">25-30%</span></div>
+      <div class="week-date">Viernes 4 jul · 3-4 hs + Sábado 5 jul · 4-5 hs</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Microsoft Learn LP1 "Prepare data" — Get data, Profile & clean, Transform & load</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Practicar Query Folding, parámetros, combinar consultas en Power BI Desktop</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Completar LP1 y todos sus módulos</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 30 preguntas en ExamTopics filtradas por Power Query</div>
+        <div class="wtask"><strong style="color:var(--text)">Entre semana:</strong> 10-15 preguntas/día en el celular (ExamTopics mobile)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semana 2 -->
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(245,158,11,0.2);color:var(--amber)">2</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 2 — Modelar datos + DAX <span class="badge b-amber">25-30%</span></div>
+      <div class="week-date">Viernes 11 jul · 3-4 hs + Sábado 12 jul · 4-5 hs</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> LP2 "Model data" — relaciones, esquema estrella, jerarquías, Storage Modes</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Crear modelo estrella real con hechos + dimensiones en Desktop</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> DAX profundo — CALCULATE, FILTER, RELATED, SUMX, Time Intelligence</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 40 preguntas en ExamTopics filtradas por DAX y modelado</div>
+        <div class="wtask"><strong style="color:var(--text)">Recurso clave:</strong> dax.guide (gratis) — referencia de cada función</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semana 3 -->
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(20,184,166,0.2);color:var(--teal)">3</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 3 — Visualizar + Gestionar <span class="badge b-teal">25-30%</span> <span class="badge b-coral">15-20%</span></div>
+      <div class="week-date">Viernes 18 jul · Sábado 19 jul (si posponés)</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> LP3 "Visualize and analyze" — reportes, filtros, bookmarks, drill-through</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> LP4 "Deploy and maintain" — workspaces, gateways, RLS, licencias</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Practice Assessment oficial de nuevo — verificá que subiste el score</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Simulacro completo en ITExams (40-60 preguntas)</div>
+        <div class="wtask"><strong style="color:var(--text)">Último día antes:</strong> Repasar teoría de la sección Consejos de este hub</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-sm">
+    <h3>📱 Entre semana (lun–jue) — 20 min/día</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+      <div class="wtask" style="padding:0">10-15 preguntas en ExamTopics (celular)</div>
+      <div class="wtask" style="padding:0">Un video corto de Guy in a Cube (YouTube)</div>
+      <div class="wtask" style="padding:0">Repasar notas del fin de semana anterior</div>
+      <div class="wtask" style="padding:0">Practicar una función DAX nueva en Desktop</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TEORÍA ===== -->
+<div id="view-teoria" class="view">
+  <div class="eyebrow">Conceptos formales</div>
+  <div class="view-header">
+    <h2>Teoría clave 📖</h2>
+    <p>Todo lo que ya hacés por intuición, ahora con nombre formal. Expandí cada sección.</p>
+  </div>
+
+  <div class="domain-bar">
+    <div class="domain-pill dp-blue active" onclick="filterConcepts('all',this)">Todos</div>
+    <div class="domain-pill dp-blue" onclick="filterConcepts('data',this)">Preparar datos</div>
+    <div class="domain-pill dp-amber" onclick="filterConcepts('model',this)">Modelar</div>
+    <div class="domain-pill dp-teal" onclick="filterConcepts('viz',this)">Visualizar</div>
+    <div class="domain-pill dp-coral" onclick="filterConcepts('manage',this)">Gestionar</div>
+  </div>
+
+  <div id="concepts-list">
+
+  <!-- 1 -->
+  <div class="concept-card" data-domain="model">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-amber">Modelar</span> Storage Modes — Import, DirectQuery, Dual <span class="tag-freq freq-high">🔥 muy frecuente</span></div>
+        <div class="concept-meta">Lo usás sin saber cómo se llama cada uno</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Import:</strong> Los datos se copian al modelo de Power BI. Máxima performance, ideal para datasets que no cambian constantemente. Permite todas las funciones DAX.</p>
+      <p><strong>DirectQuery:</strong> Power BI consulta la fuente en tiempo real, no almacena datos. Siempre actualizado, pero más lento y con limitaciones DAX.</p>
+      <p><strong>Dual:</strong> La tabla puede actuar como Import O DirectQuery según el contexto de la consulta. Ideal para tablas de dimensiones en modelos mixtos.</p>
+      <div class="tip"><strong>Regla del examen:</strong> Si preguntan "near real time" → DirectQuery. Si preguntan "mejor performance" → Import. Dimensiones en modelo mixto → Dual.</div>
+      <div class="warn"><strong>Truco de memoria:</strong> DirectQuery = Direct al origen = siempre fresco pero más lento.</div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="concept-card" data-domain="data">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-blue">Datos</span> Query Folding <span class="tag-freq freq-high">🔥 muy frecuente</span></div>
+        <div class="concept-meta">El secreto de performance en Power Query</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Query Folding</strong> es cuando Power Query traduce las transformaciones que hacés en el editor a código nativo de la fuente (SQL, OData, etc.) y deja que la fuente haga el trabajo pesado.</p>
+      <p>Si query folding ocurre → la fuente filtra, ordena y agrupa ANTES de enviar datos → menos datos transferidos → más rápido.</p>
+      <p>Si no ocurre → Power BI descarga todo y procesa localmente → lento con datasets grandes.</p>
+      <div class="tip"><strong>Cómo verlo:</strong> En Power Query, clic derecho en un paso → "View Native Query". Si está disponible → hay query folding. Si está en gris → no hay folding en ese paso.</div>
+      <div class="warn"><strong>Rompe el folding:</strong> Agregar columnas personalizadas (M code), combinar fuentes distintas, ciertos tipos de transformaciones. Los pasos DESPUÉS de uno que rompe el folding tampoco tienen folding.</div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="concept-card" data-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-coral">Gestionar</span> Row-Level Security (RLS) <span class="tag-freq freq-high">🔥 muy frecuente</span></div>
+        <div class="concept-meta">Seguridad de datos por usuario</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>RLS</strong> restringe qué filas de datos ve cada usuario. Hay dos tipos:</p>
+      <p><strong>Static RLS:</strong> Los roles tienen filtros fijos. Ej: Vendedor Argentina solo ve filas donde País = "Argentina". Se configura en Power BI Desktop.</p>
+      <p><strong>Dynamic RLS:</strong> Los filtros usan la función <code>USERNAME()</code> o <code>USERPRINCIPALNAME()</code> para comparar con una tabla de seguridad. Un solo rol sirve para todos.</p>
+      <div class="code-block">FILTER(Tabla, Tabla[Email] = USERPRINCIPALNAME())</div>
+      <div class="tip"><strong>Flujo:</strong> Crear rol en Desktop → publicar → en Service asignar usuarios al rol. Los admins del workspace ven TODOS los datos sin importar el RLS.</div>
+      <div class="warn"><strong>Examen:</strong> Static RLS → múltiples roles, más fácil de configurar. Dynamic RLS → un solo rol, escala mejor, usa USERNAME()/USERPRINCIPALNAME().</div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="concept-card" data-domain="model">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-amber">Modelar</span> Esquema estrella vs copo de nieve <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">La base de todo modelo correcto</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Esquema estrella:</strong> Una tabla de hechos central (ventas, transacciones) conectada a tablas de dimensiones desnormalizadas (clientes, productos, fechas). Power BI optimizado para esto.</p>
+      <p><strong>Copo de nieve:</strong> Las dimensiones se normalizan en sub-dimensiones. Ej: Producto → Subcategoría → Categoría como tablas separadas.</p>
+      <div class="tip"><strong>Siempre elegí estrella en el examen</strong> a menos que pregunten específicamente por normalización. Estrella = mejor performance en Power BI.</div>
+      <p><strong>Tabla de hechos:</strong> Contiene medidas numéricas y claves foráneas. Granularidad = un registro por transacción.</p>
+      <p><strong>Tabla de dimensiones:</strong> Contiene atributos descriptivos. Sin duplicados en la clave primaria.</p>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="concept-card" data-domain="model">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-amber">Modelar</span> Relaciones: dirección del filtro cruzado <span class="tag-freq freq-high">🔥 muy frecuente</span></div>
+        <div class="concept-meta">Por qué algunos filtros no funcionan como esperás</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Single (una dirección):</strong> El filtro va de la tabla "1" a la tabla "muchos". Dimensión → Hechos. Es el default y el recomendado.</p>
+      <p><strong>Both (bidireccional):</strong> Los filtros fluyen en ambas direcciones. Útil para tablas puente en muchos-a-muchos, pero puede causar ambigüedad.</p>
+      <div class="warn"><strong>Cuándo usar Both:</strong> Solo cuando sea necesario para tablas intermedias (puente) en relaciones muchos-a-muchos. Evitarlo en general — puede causar resultados inesperados.</div>
+      <div class="tip"><strong>Regla:</strong> Si la relación es 1-a-muchos → Single. Si hay tabla puente en N-a-N → Both o usar CROSSFILTER en DAX.</div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="concept-card" data-domain="data">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-blue">Datos</span> Tipos de conectores y modos de conexión <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">Get data: ¿desde dónde y cómo?</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Fuentes de datos principales:</strong> SQL Server, Azure SQL, Excel, SharePoint, Dataverse, Power BI datasets, Dataflows, Web, API REST.</p>
+      <p><strong>On-premises data gateway:</strong> Necesario cuando la fuente está en la red local (SQL Server on-prem, archivos locales) y necesitás actualizar desde el Service. Hay dos modos: <strong>Standard</strong> (compartido, múltiples usuarios) y <strong>Personal</strong> (solo un usuario, no recomendado para empresas).</p>
+      <div class="tip"><strong>Examen:</strong> ¿Cuándo necesitás gateway? Cuando la fuente de datos es on-premises y el reporte está en Power BI Service. Sin gateway, el refresh falla.</div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="concept-card" data-domain="viz">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-teal">Visualizar</span> Filtros: tipos y jerarquía <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">Visual, página, informe y drill-through</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Jerarquía de filtros</strong> (de mayor a menor alcance):</p>
+      <p>1. <strong>Filtro de informe:</strong> Afecta todas las páginas.</p>
+      <p>2. <strong>Filtro de página:</strong> Afecta todos los visuales de esa página.</p>
+      <p>3. <strong>Filtro de visual:</strong> Afecta solo ese visual.</p>
+      <p>4. <strong>Drill-through:</strong> Filtra una página de detalle según el contexto del elemento seleccionado.</p>
+      <div class="tip"><strong>Slicer vs Filtro:</strong> Los slicers son visuales interactivos. Los filtros en el panel Filtros pueden ocultarse del usuario final. Para experiencia del usuario → slicer. Para control que el usuario no debe cambiar → panel de filtros.</div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="concept-card" data-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-coral">Gestionar</span> Workspaces y licencias <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">Free vs Pro vs Premium</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Free:</strong> Solo "Mi área de trabajo". No puede compartir con otros (excepto en capacidad Premium).</p>
+      <p><strong>Pro:</strong> Acceso a workspaces colaborativos, compartir contenido con otros usuarios Pro. Para publicar y consumir en workspace compartido necesitás Pro (o Premium).</p>
+      <p><strong>Premium (por capacidad):</strong> Usuarios Free pueden consumir contenido de workspaces Premium sin licencia Pro propia. También habilita Paginated Reports, AI features, mayor capacidad de datos.</p>
+      <div class="tip"><strong>Regla del examen:</strong> Usuario A (Pro) quiere compartir reporte con Usuario B → B necesita Pro también, a menos que el workspace esté en capacidad Premium.</div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="concept-card" data-domain="viz">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-teal">Visualizar</span> Bookmarks y botones de navegación <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">Interactividad avanzada en reportes</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Bookmark:</strong> Captura el estado del reporte en un momento dado: filtros activos, qué visuales son visibles, selecciones. Sirve para crear navegación, tours guiados o estados alternativos del reporte.</p>
+      <p><strong>Botones de acción:</strong> Pueden ejecutar bookmarks, navegar a páginas, URLs, drill-through o Q&A. Se configuran en el panel Format → Action.</p>
+      <div class="tip"><strong>Caso de examen típico:</strong> Crear un panel de "vista ejecutiva" y otro de "vista detalle" usando bookmarks que muestran/ocultan visuales. El botón toggle entre estados.</div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="concept-card" data-domain="data">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div>
+        <div class="concept-title"><span class="badge b-blue">Datos</span> Dataflows y Dataverse <span class="tag-freq freq-med">⚡ frecuente</span></div>
+        <div class="concept-meta">Reutilización de transformaciones</div>
+      </div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Dataflows:</strong> Transformaciones Power Query creadas y almacenadas en el Service. Múltiples reportes pueden reutilizar el mismo dataflow. Reduce duplicación de lógica de limpieza.</p>
+      <p><strong>Dataverse:</strong> Base de datos en la nube (antes Common Data Service). Se conecta con Power Apps y Power Automate. Para reportar sobre apps de negocio.</p>
+      <div class="tip"><strong>Cuándo usar Dataflow:</strong> Misma transformación compleja usada en varios reportes. Centraliza la lógica, equipo de datos mantiene un solo lugar.</div>
+    </div>
+  </div>
+
+  </div><!-- end concepts-list -->
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="view-quiz" class="view">
+  <div class="eyebrow">Práctica</div>
+  <div class="view-header">
+    <h2>Quiz de práctica 🧪</h2>
+    <p>Preguntas del estilo del examen real. Respondé cada una antes de ver la respuesta.</p>
+  </div>
+  <div id="quiz-wrap"></div>
+</div>
+
+<!-- ===== DAX ===== -->
+<div id="view-dax" class="view">
+  <div class="eyebrow">Referencia rápida</div>
+  <div class="view-header">
+    <h2>DAX Cheatsheet 🔢</h2>
+    <p>Las funciones que más aparecen en el examen. Con ejemplos prácticos.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">CALCULATE — La función más importante del examen</div><div class="concept-meta">Evalúa una expresión en un contexto de filtro modificado</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Sintaxis:</strong></p>
+      <div class="code-block">CALCULATE(expresión, filtro1, filtro2, ...)</div>
+      <p><strong>Ejemplos:</strong></p>
+      <div class="code-block">-- Ventas solo de Argentina
+Ventas AR = CALCULATE(SUM(Ventas[Monto]), Ventas[País] = "Argentina")
+
+-- Ventas del año pasado
+Ventas LY = CALCULATE([Total Ventas], SAMEPERIODLASTYEAR(Fechas[Fecha]))
+
+-- Quitar filtro de categoría
+Ventas Todas Cat = CALCULATE([Total Ventas], ALL(Productos[Categoría]))</div>
+      <div class="tip"><strong>Clave:</strong> CALCULATE puede modificar, agregar o quitar filtros del contexto. ALL() dentro de CALCULATE quita filtros de esa columna/tabla.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">Funciones de Time Intelligence</div><div class="concept-meta">YTD, MTD, QTD y comparaciones con períodos anteriores</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">-- Año hasta la fecha
+Ventas YTD = TOTALYTD([Total Ventas], Fechas[Fecha])
+
+-- Mes hasta la fecha
+Ventas MTD = TOTALMTD([Total Ventas], Fechas[Fecha])
+
+-- Mismo período año anterior
+Ventas PY = CALCULATE([Total Ventas], SAMEPERIODLASTYEAR(Fechas[Fecha]))
+
+-- Mover N períodos
+Ventas -3M = CALCULATE([Total Ventas], DATEADD(Fechas[Fecha], -3, MONTH))</div>
+      <div class="warn"><strong>Requisito:</strong> Las funciones Time Intelligence necesitan una tabla de fechas marcada como "tabla de fechas" con una columna de tipo Date sin huecos.</div>
+      <div class="tip"><strong>Examen:</strong> Si preguntan "ventas del año pasado mismo período" → SAMEPERIODLASTYEAR. Si preguntan "acumulado del año" → TOTALYTD.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">FILTER, ALL, ALLEXCEPT</div><div class="concept-meta">Control del contexto de filtro</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">-- FILTER: retorna tabla filtrada
+Ventas Premium = 
+  CALCULATE(
+    [Total Ventas],
+    FILTER(Productos, Productos[Tier] = "Premium")
+  )
+
+-- ALL: quita filtros de toda la tabla o columna
+% del Total = DIVIDE([Total Ventas], CALCULATE([Total Ventas], ALL(Ventas)))
+
+-- ALLEXCEPT: quita todos los filtros EXCEPTO los de las columnas especificadas
+Ventas País = CALCULATE([Total Ventas], ALLEXCEPT(Ventas, Ventas[País]))</div>
+      <div class="tip"><strong>Diferencia clave:</strong> ALL(tabla) quita todos los filtros de la tabla. ALLEXCEPT(tabla, col) quita todos excepto los de esa columna.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">RELATED, RELATEDTABLE, LOOKUPVALUE</div><div class="concept-meta">Navegar relaciones entre tablas</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">-- RELATED: trae columna de tabla relacionada (lado 1)
+Categoría = RELATED(Productos[Categoría])  -- en tabla de hechos
+
+-- RELATEDTABLE: retorna tabla de relación (lado muchos)
+CantProd = COUNTROWS(RELATEDTABLE(Productos))  -- en tabla dimensión
+
+-- LOOKUPVALUE: busca sin relación formal
+Ciudad = LOOKUPVALUE(Ciudades[Nombre], Ciudades[ID], Ventas[CiudadID])</div>
+      <div class="tip"><strong>Cuándo usar LOOKUPVALUE:</strong> Cuando no podés crear una relación formal pero necesitás traer un valor de otra tabla.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">SUMX, AVERAGEX, COUNTX — Iteradores</div><div class="concept-meta">Evalúan expresión fila por fila</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">-- SUMX itera la tabla y suma la expresión por fila
+Ingresos = SUMX(Ventas, Ventas[Cantidad] * Ventas[PrecioUnitario])
+
+-- Equivale a una columna calculada, pero sin crearla
+-- Útil cuando no tenés la columna de ingresos precalculada</div>
+      <div class="tip"><strong>SUM vs SUMX:</strong> SUM suma una columna existente. SUMX calcula una expresión fila por fila y luego suma. SUMX es más flexible pero más lento en tablas grandes.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">Variables en DAX (VAR)</div><div class="concept-meta">Hacen el código más legible y eficiente</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">Variación % = 
+VAR VentasActual = [Total Ventas]
+VAR VentasAnterior = CALCULATE([Total Ventas], SAMEPERIODLASTYEAR(Fechas[Fecha]))
+VAR Variación = DIVIDE(VentasActual - VentasAnterior, VentasAnterior)
+RETURN
+  IF(ISBLANK(VentasAnterior), BLANK(), Variación)</div>
+      <div class="tip"><strong>Ventajas VAR:</strong> Se calculan una vez (no múltiples veces). El código es más legible. Permite usar RETURN para controlar el resultado final.</div>
+    </div>
+  </div>
+
+  <div class="card card-sm" style="margin-top:4px">
+    <h3>📋 Funciones frecuentes de examen — referencia rápida</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">DISTINCTCOUNT(col)</code> — cuenta valores únicos</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">DIVIDE(num, den, alt)</code> — división segura (no error)</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">IF(cond, si, no)</code> — condicional</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">ISBLANK(val)</code> — verifica si está vacío</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">RANKX(tabla, expr)</code> — ranking dinámico</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">HASONEVALUE(col)</code> — ¿hay un solo valor seleccionado?</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">SELECTEDVALUE(col)</code> — valor único seleccionado o alt</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:var(--accent)">FORMAT(val, fmt)</code> — dar formato a un valor</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RECURSOS ===== -->
+<div id="view-recursos" class="view">
+  <div class="eyebrow">Links esenciales</div>
+  <div class="view-header">
+    <h2>Recursos gratuitos 🔗</h2>
+    <p>Todo ordenado por prioridad. Empezá de arriba hacia abajo.</p>
+  </div>
+
+  <div class="card">
+    <h3>🥇 Esenciales — empezá por acá</h3>
+    <div class="resource-row">
+      <div class="res-icon">📋</div>
+      <div>
+        <div class="res-title">Study Guide oficial PL-300 <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/resources/study-guides/pl-300" target="_blank">learn.microsoft.com › study-guides/pl-300</a>
+        <div class="res-note">El índice completo de temas. Usalo como checklist de todo lo que tenés que saber.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🎓</div>
+      <div>
+        <div class="res-title">Microsoft Learn – 4 Learning Paths <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/exams/pl-300" target="_blank">learn.microsoft.com › certifications/exams/pl-300</a>
+        <div class="res-note">LP1: Prepare data · LP2: Model data · LP3: Visualize · LP4: Deploy. Con labs interactivos.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">✅</div>
+      <div>
+        <div class="res-title">Practice Assessment oficial <span class="badge b-green">GRATIS · MÁS IMPORTANTE</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/data-analyst-associate" target="_blank">learn.microsoft.com › data-analyst-associate</a>
+        <div class="res-note">Simulacro oficial con el estilo exacto del examen real. Hacelo al inicio y antes de rendir.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🎬</div>
+      <div>
+        <div class="res-title">Exam Readiness Zone — 4 videos <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/shows/exam-readiness-zone" target="_blank">learn.microsoft.com › exam-readiness-zone</a>
+        <div class="res-note">Buscar "PL-300". 4 episodios de ~15 min cada uno. Lo que el examen evalúa en cada dominio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧪 Pruebas de práctica gratuitas</h3>
+    <div class="resource-row">
+      <div class="res-icon">📝</div>
+      <div>
+        <div class="res-title">ExamTopics PL-300 <span class="badge b-teal">GRATIS</span></div>
+        <a class="res-url" href="https://www.examtopics.com/exams/microsoft/pl-300/view/" target="_blank">examtopics.com/exams/microsoft/pl-300/view</a>
+        <div class="res-note">Cientos de preguntas reales con discusión de la comunidad. Leé los comentarios — corrigen errores y explican el razonamiento.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📝</div>
+      <div>
+        <div class="res-title">ITExams PL-300 <span class="badge b-teal">GRATIS</span></div>
+        <a class="res-url" href="https://www.itexams.com/info/PL-300" target="_blank">itexams.com/info/PL-300</a>
+        <div class="res-note">Banco actualizado (junio 2026). Acceso gratuito. Buena variedad de escenarios.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🎯</div>
+      <div>
+        <div class="res-title">Exam Sandbox oficial <span class="badge b-purple">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/data-analyst-associate" target="_blank">learn.microsoft.com → "Launch the sandbox"</a>
+        <div class="res-note">Simulá la interfaz exacta. Practicá drag-and-drop, hotspot y tipos interactivos de preguntas.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📝</div>
+      <div>
+        <div class="res-title">PassnExam PL-300 <span class="badge b-teal">GRATIS</span></div>
+        <a class="res-url" href="https://www.passnexam.com/microsoft/pl-300" target="_blank">passnexam.com/microsoft/pl-300</a>
+        <div class="res-note">Preguntas con explicaciones detalladas y feedback instantáneo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 Material complementario</h3>
+    <div class="resource-row">
+      <div class="res-icon">🔢</div>
+      <div>
+        <div class="res-title">DAX.guide <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://dax.guide" target="_blank">dax.guide</a>
+        <div class="res-note">Referencia completa de todas las funciones DAX con ejemplos. Bookmark obligatorio.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📺</div>
+      <div>
+        <div class="res-title">Guy in a Cube (YouTube) <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://www.youtube.com/@GuyInACube" target="_blank">youtube.com/@GuyInACube</a>
+        <div class="res-note">Canal oficial Microsoft Power BI. Videos cortos sobre cada feature. Ideal para los días entre semana.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📺</div>
+      <div>
+        <div class="res-title">Curbal (YouTube) <span class="badge b-green">GRATIS · EN ESPAÑOL</span></div>
+        <a class="res-url" href="https://www.youtube.com/@curbal" target="_blank">youtube.com/@curbal</a>
+        <div class="res-note">Excelente canal en español con DAX, Power Query y modelado. Muy didáctico.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🌐</div>
+      <div>
+        <div class="res-title">Microsoft Certification Hub PL-300 <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://msfthub.com/power/pl-300/" target="_blank">msfthub.com/power/pl-300</a>
+        <div class="res-note">Índice curado de todos los recursos oficiales: study guide, labs, videos en un solo lugar.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DP-700 VIEWS ===================== -->
+
+<!-- DP-700 DASHBOARD -->
+<div id="view-dp-dashboard" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Microsoft Fabric</div>
+  <div class="view-header">
+    <h2>Fabric Data Engineer 🏭</h2>
+    <p>Partís de cero en Fabric. Faltan <strong id="dp-days-left">?</strong> días para el examen (8 agosto). <span style="font-size:12px;color:#a78bfa;cursor:pointer" onclick="promptDpDate()">✏️ cambiar fecha</span></p>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card" style="border-color:rgba(124,58,237,0.3)">
+      <div class="stat-num" id="dp-days-stat" style="color:#a78bfa">—</div>
+      <div class="stat-label">días hasta el examen</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">3</div>
+      <div class="stat-label">dominios del examen</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">700</div>
+      <div class="stat-label">puntos mínimos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">100'</div>
+      <div class="stat-label">minutos / ~50 preguntas</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>📊 Distribución del examen</h3>
+      <div class="pbar-wrap" style="margin-top:10px">
+        <div class="pbar-label"><span>Ingerir y transformar datos</span><span>30–35%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:32%;background:#7c3aed"></div></div>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-label"><span>Implementar y gestionar solución</span><span>30–35%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:32%;background:var(--teal)"></div></div>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-label"><span>Monitorear y optimizar</span><span>30–35%</span></div>
+        <div class="pbar-bg"><div class="pbar-fill" style="width:32%;background:var(--coral)"></div></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">Los 3 dominios pesan casi igual — no podés descuidar ninguno.</p>
+    </div>
+    <div class="card">
+      <h3>⚡ Acción inmediata</h3>
+      <div style="margin-top:8px">
+        <div class="checklist-item" onclick="toggleCheck(this)" id="dc0">
+          <div class="check-box"></div>
+          <div><div class="check-label">Leer el Study Guide oficial DP-700</div><div class="check-sub">learn.microsoft.com › study-guides/dp-700</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="dc1">
+          <div class="check-box"></div>
+          <div><div class="check-label">Activar Fabric Free Trial (60 días)</div><div class="check-sub">app.fabric.microsoft.com → Start trial</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="dc2">
+          <div class="check-box"></div>
+          <div><div class="check-label">Hacer el Practice Assessment oficial</div><div class="check-sub">Diagnóstico inicial sin estudiar</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="dc3">
+          <div class="check-box"></div>
+          <div><div class="check-label">Ver playlist DP-700 Microsoft Reactor</div><div class="check-sub">YouTube: "DP-700 Get started data engineering"</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)" id="dc4">
+          <div class="check-box"></div>
+          <div><div class="check-label">Crear primer Lakehouse en Fabric</div><div class="check-sub">Lab gratis en Microsoft Learn</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🆚 DP-700 vs PL-300 — ¿en qué se diferencia?</h3>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:6px">
+      El PL-300 es sobre <strong style="color:var(--text)">consumir y visualizar datos</strong> (Power BI). El DP-700 es sobre <strong style="color:var(--text)">construir la infraestructura de datos</strong> que alimenta esos reportes: pipelines, lakehouses, transformaciones a escala y gobernanza. Fabric es la plataforma unificada de Microsoft que reemplaza a Azure Synapse + Data Factory + Power BI en un solo lugar.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <span class="badge b-purple">OneLake = storage único</span>
+      <span class="badge b-teal">Lakehouse + Warehouse</span>
+      <span class="badge b-blue">Pipelines = ETL/ELT</span>
+      <span class="badge b-amber">PySpark + SQL + KQL</span>
+      <span class="badge b-coral">Delta Lake format</span>
+      <span class="badge b-green">Medallion Architecture</span>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(124,58,237,0.25);background:rgba(124,58,237,0.04)">
+    <h3>🎯 Diferencial clave del examen DP-700</h3>
+    <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-top:6px">
+      <strong style="color:var(--text)">Tenés acceso a Microsoft Learn DURANTE el examen</strong> (split screen). Esto no significa que podés buscar todo — el tiempo es ajustado (~2 min por pregunta). Significa que podés consultar sintaxis exacta de KQL/PySpark o nombres de parámetros. Practicá navegar rápido en Learn.
+    </p>
+  </div>
+</div>
+
+<!-- DP-700 PLAN -->
+<div id="view-dp-plan" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Cronograma</div>
+  <div class="view-header">
+    <h2>Plan semanal DP-700 📅</h2>
+    <p>Partís de cero. Tenés ~6 semanas. Viernes + sábados como días principales. Examen: 8 agosto.</p>
+  </div>
+
+  <div class="card card-sm" style="border-color:rgba(124,58,237,0.3);margin-bottom:16px">
+    <h3 style="color:#a78bfa">⚠️ Antes de empezar</h3>
+    <p style="font-size:13px;color:var(--muted);margin-top:6px">Activá el <strong style="color:var(--text)">Fabric Free Trial</strong> en app.fabric.microsoft.com. Son 60 días gratis con capacidad F64. Sin esto no podés hacer los labs y el DP-700 requiere práctica hands-on obligatoria.</p>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(20,184,166,0.2);color:var(--teal)">0</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Esta semana — Setup y diagnóstico</div>
+      <div class="week-date">Cualquier día · ~2 hs</div>
+      <div class="week-tasks">
+        <div class="wtask">Activar Fabric Trial + crear workspace</div>
+        <div class="wtask">Leer Study Guide DP-700 completo (marcar lo que no conocés)</div>
+        <div class="wtask">Hacer Practice Assessment oficial sin estudiar</div>
+        <div class="wtask">Ver la serie DP-700 Microsoft Reactor en YouTube (~1h)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(124,58,237,0.2);color:#a78bfa">1</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 1 — Arquitectura Fabric + Lakehouse <span class="badge b-purple">base fundamental</span></div>
+      <div class="week-date">Viernes 27 jun · 3-4 hs + Sábado 28 jun · 4-5 hs</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Microsoft Learn LP "Get started with lakehouses in Microsoft Fabric" — OneLake, Lakehouse, Delta tables, medallion architecture</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Lab: crear Lakehouse, ingestar archivo CSV, explorar con SQL endpoint</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> LP "Use Apache Spark in Microsoft Fabric" — notebooks PySpark básico, leer/escribir Delta tables</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Lab: crear notebook, cargar datos, transformar con PySpark, guardar como Delta table</div>
+        <div class="wtask"><strong style="color:var(--text)">Entre semana:</strong> 10 preguntas/día en ExamTopics DP-700 sobre Lakehouse y arquitectura</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(124,58,237,0.2);color:#a78bfa">2</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 2 — Pipelines y Data Factory <span class="badge b-blue">ingestión 30-35%</span></div>
+      <div class="week-date">Viernes 4 jul · Sábado 5 jul</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> LP "Ingest Data with Data Factory" — Copy Activity, pipeline triggers, monitoring, incremental load patterns</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Diferencias: Copy Data tool vs Data Flow vs Notebook para ingestión</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Dataflow Gen2 — transformaciones con Power Query en Fabric, diferencias con Dataflows de Power BI</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Lab: pipeline con Copy Activity desde REST API → Lakehouse → transformación básica</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 30 preguntas ExamTopics enfocadas en pipelines y data ingestion</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(124,58,237,0.2);color:#a78bfa">3</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 3 — Data Warehouse + SQL <span class="badge b-teal">analytics endpoint</span></div>
+      <div class="week-date">Viernes 11 jul · Sábado 12 jul</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> LP "Work with data warehouses in Microsoft Fabric" — Warehouse vs Lakehouse SQL endpoint, T-SQL, vistas, stored procedures</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Cuándo usar Warehouse vs Lakehouse: Warehouse para T-SQL completo + concurrencia alta. Lakehouse para datos en Delta sin schema rígido</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> OneLake shortcuts — qué son, cuándo usarlos, tipos (ADLS Gen2, S3, OneLake externo)</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Direct Lake mode — diferencias con Import y DirectQuery. Cuándo aplica</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 30 preguntas ExamTopics Warehouse + shortcuts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(124,58,237,0.2);color:#a78bfa">4</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 4 — Real-Time Intelligence + KQL <span class="badge b-amber">streaming data</span></div>
+      <div class="week-date">Viernes 18 jul · Sábado 19 jul</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> LP "Work with real-time data in Microsoft Fabric" — Eventstream, Eventhouse, KQL Database</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> KQL básico: project, where, summarize, extend, join, render. Ver sección KQL de este hub</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Seguridad y gobernanza: workspace roles, OneLake security, RLS/OLS en Fabric, sensitivity labels, Microsoft Purview integration</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Git integration + deployment pipelines (Dev → Test → Prod)</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 30 preguntas ExamTopics Real-Time + seguridad</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(249,115,22,0.2);color:var(--coral)">5</div>
+      <div class="week-connector"></div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 5 — Optimización + Delta Lake internals <span class="badge b-coral">30-35%</span></div>
+      <div class="week-date">Viernes 25 jul · Sábado 26 jul</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Delta Lake: OPTIMIZE, VACUUM, V-Order, Z-Order. Qué hace cada uno y cuándo usarlo</div>
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Capacity Metrics App — cómo monitorear throttling y consumo de capacidad</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Query optimization: particionamiento, estadísticas, caché en Spark, Query Insights en Warehouse</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Simulacro completo en ExamTopics + ITExams (50 preguntas, cronometrado)</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> Practice Assessment oficial de nuevo — verificá progreso</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-line">
+      <div class="week-dot" style="background:rgba(34,197,94,0.2);color:var(--green)">6</div>
+    </div>
+    <div class="week-content">
+      <div class="week-title">Semana 6 — Repaso final y simulacros</div>
+      <div class="week-date">Viernes 1 ago · Sábado 2 ago · + días previos al 8 ago</div>
+      <div class="week-tasks">
+        <div class="wtask"><strong style="color:var(--text)">Viernes:</strong> Repasar todos los temas débiles identificados en simulacros previos</div>
+        <div class="wtask"><strong style="color:var(--text)">Sábado:</strong> 2 simulacros completos cronometrados. Necesitás 80%+ antes de rendir</div>
+        <div class="wtask"><strong style="color:var(--text)">Días 3-7 agosto:</strong> Solo repaso ligero — KQL sintaxis, nombres de comandos Delta, conceptos de gobernanza</div>
+        <div class="wtask"><strong style="color:var(--text)">Día anterior:</strong> Descansar. Repasar cheatsheets de este hub. Sin estudiar material nuevo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DP-700 TEORIA -->
+<div id="view-dp-teoria" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Conceptos</div>
+  <div class="view-header">
+    <h2>Conceptos clave de Fabric 📖</h2>
+    <p>Partís de cero — acá están los conceptos fundamentales explicados desde la base.</p>
+  </div>
+
+  <div class="domain-bar">
+    <div class="domain-pill dp-blue active" onclick="filterDpConcepts('all',this)">Todos</div>
+    <div class="domain-pill dp-amber" onclick="filterDpConcepts('ingest',this)">Ingestión</div>
+    <div class="domain-pill dp-teal" onclick="filterDpConcepts('manage',this)">Gestión</div>
+    <div class="domain-pill dp-coral" onclick="filterDpConcepts('optim',this)">Optimización</div>
+  </div>
+
+  <div id="dp-concepts-list">
+
+  <div class="concept-card" data-dp-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-teal">Gestión</span> Microsoft Fabric — arquitectura general <span class="tag-freq freq-high">🔥 base de todo</span></div><div class="concept-meta">El ecosistema completo que reemplaza a Synapse + ADF + Power BI</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Microsoft Fabric</strong> es una plataforma SaaS unificada que integra en un solo lugar: Data Engineering (pipelines, Spark), Data Warehousing, Data Science, Real-Time Intelligence, Data Factory y Power BI.</p>
+      <p><strong>OneLake:</strong> El almacenamiento único de Fabric. Similar a OneDrive pero para datos. Todos los items de Fabric (Lakehouse, Warehouse, etc.) guardan sus datos en OneLake automáticamente. Formato subyacente: Delta Parquet.</p>
+      <p><strong>Items principales de Fabric:</strong> Lakehouse · Warehouse · Notebook · Data Pipeline · Dataflow Gen2 · Eventstream · Eventhouse (KQL Database) · Semantic Model · Report</p>
+      <div class="tip"><strong>Examen:</strong> Fabric es SaaS (Software as a Service), no IaaS ni PaaS puro. No gestionás servidores. La capacidad se mide en CUs (Capacity Units) y se contrata como F2, F4, F8... F64, etc.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-teal">Gestión</span> Lakehouse vs Warehouse — cuándo usar cada uno <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">La decisión arquitectónica más importante en Fabric</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Lakehouse:</strong> Combina data lake (archivos en OneLake) + SQL analytics endpoint. Ideal para datos semiestructurados o sin schema rígido. Se trabaja con PySpark/Spark SQL. Las tablas son Delta tables. Excelente para ETL/ELT y ciencia de datos.</p>
+      <p><strong>Warehouse:</strong> Data warehouse completo con T-SQL nativo. Ideal para datos estructurados con schema definido, consultas complejas con joins, usuarios analíticos que usan SQL. Mayor soporte de concurrencia.</p>
+      <div class="tip"><strong>Regla del examen:</strong> Datos en múltiples formatos / ciencia de datos / PySpark → Lakehouse. T-SQL completo / alta concurrencia / BI tradicional → Warehouse.</div>
+      <div class="warn"><strong>Truco:</strong> El Lakehouse tiene un "SQL analytics endpoint" de solo lectura. Para escribir datos via SQL necesitás el Warehouse.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-teal">Gestión</span> Medallion Architecture (Bronze → Silver → Gold) <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">El patrón de diseño estándar para lakehouses</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Bronze (Raw):</strong> Datos tal como llegan de la fuente, sin modificar. Histórico completo. Permite reprocesar si algo falla.</p>
+      <p><strong>Silver (Cleansed):</strong> Datos limpios, validados, deduplicados. Schema aplicado. Unificación de fuentes.</p>
+      <p><strong>Gold (Curated):</strong> Datos listos para consumo: agregados, métricas de negocio, dimensiones. Alimentan reportes Power BI y semantic models.</p>
+      <div class="tip"><strong>En Fabric:</strong> Podés implementar medallion con carpetas dentro de un Lakehouse o con Lakehouses separados (uno por capa). La segunda opción da mejor aislamiento.</div>
+      <div class="warn"><strong>Examen:</strong> Si preguntan "minimizar impacto en datos originales" → guardar en Bronze primero. Si preguntan "datos listos para BI" → capa Gold.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="ingest">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-amber">Ingestión</span> Pipelines vs Dataflow Gen2 vs Notebook — cuándo usar cada uno <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">Las tres formas de mover y transformar datos en Fabric</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Data Pipeline (Data Factory):</strong> Orquestación visual de actividades (Copy Data, Notebook, Dataflow, If Condition, ForEach). Ideal para ETL complejos con ramificaciones y dependencias. Sin código.</p>
+      <p><strong>Dataflow Gen2:</strong> Transformaciones con Power Query (M). Interfaz visual tipo Excel. Ideal para usuarios no-técnicos o transformaciones simples/medianas. Escala menos que Spark.</p>
+      <p><strong>Notebook (PySpark/SparkSQL):</strong> Transformaciones complejas con código. Máxima flexibilidad y performance. Ideal para grandes volúmenes o lógica de negocio compleja. Se llaman desde pipelines.</p>
+      <div class="tip"><strong>Regla examen:</strong> Gran escala + código → Notebook. Sin código + moderado → Dataflow Gen2. Orquestación + dependencias → Pipeline (que puede llamar a Notebooks y Dataflows).</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="ingest">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-amber">Ingestión</span> Delta Lake — el formato de tabla en Fabric <span class="tag-freq freq-high">🔥 crítico</span></div><div class="concept-meta">Por qué Delta y qué hace especial este formato</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Delta Lake</strong> es un formato de tabla open-source (basado en Parquet) que agrega capacidades de base de datos sobre archivos. Todas las tablas en Fabric Lakehouse son Delta tables.</p>
+      <p><strong>Características clave:</strong></p>
+      <p>· <strong>ACID transactions:</strong> Garantiza consistencia aunque múltiples jobs escriban a la vez.</p>
+      <p>· <strong>Time Travel:</strong> Podés leer versiones anteriores con <code>VERSION AS OF</code> o <code>TIMESTAMP AS OF</code>.</p>
+      <p>· <strong>Schema enforcement:</strong> Rechaza datos que no cumplan el schema.</p>
+      <p>· <strong>OPTIMIZE:</strong> Compacta archivos pequeños en archivos más grandes → mejora performance de lectura.</p>
+      <p>· <strong>VACUUM:</strong> Elimina archivos viejos que ya no se necesitan (según retention period, default 7 días).</p>
+      <div class="warn"><strong>V-Order:</strong> Optimización de Fabric sobre Delta Parquet para lectura más rápida en Power BI y SQL. Se aplica automáticamente en Fabric pero podés controlarlo.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="ingest">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-amber">Ingestión</span> OneLake Shortcuts <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">Acceso a datos externos sin moverlos</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Shortcuts</strong> son accesos directos a datos que viven FUERA de Fabric (o en otra parte de Fabric) sin copiarlos. Los datos permanecen en el origen pero aparecen como si estuvieran en el Lakehouse.</p>
+      <p><strong>Tipos de shortcuts soportados:</strong> Azure Data Lake Storage Gen2 · Amazon S3 · Google Cloud Storage · OneLake (otro workspace de Fabric) · Dataverse</p>
+      <div class="tip"><strong>Ventaja:</strong> Sin duplicar datos. Sin movimiento de datos. El storage del origen sigue siendo la fuente de verdad. Ideal cuando los datos deben quedarse en un sistema existente.</div>
+      <div class="warn"><strong>Limitación:</strong> Los shortcuts son de solo lectura (no podés escribir al origen via shortcut en la mayoría de casos). Para escribir, necesitás copiar los datos.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-teal">Gestión</span> Seguridad en Fabric — capas de acceso <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">Workspace roles + item permissions + OneLake security</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Roles de workspace</strong> (de mayor a menor permisos): Admin → Member → Contributor → Viewer</p>
+      <p><strong>Item-level permissions:</strong> Permisos adicionales a nivel de item específico (Lakehouse, Warehouse, etc.) para usuarios sin rol en el workspace.</p>
+      <p><strong>OneLake data access roles:</strong> Control granular sobre carpetas dentro de OneLake. Un usuario puede tener acceso solo a ciertas carpetas del Lakehouse.</p>
+      <p><strong>RLS (Row-Level Security):</strong> Restricción de filas en Warehouse con T-SQL o en Semantic Models.</p>
+      <p><strong>OLS (Object-Level Security):</strong> Oculta tablas o columnas completas a ciertos roles.</p>
+      <p><strong>DDM (Dynamic Data Masking):</strong> Enmascara valores sensibles (ej: mostrar "XXXX-1234" en lugar del número de tarjeta real).</p>
+      <div class="tip"><strong>Sensitivity labels:</strong> Clasifican datos (Confidential, Public, etc.) via Microsoft Purview. Se propagan a los items de Fabric y a los exports.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="optim">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-coral">Optimización</span> OPTIMIZE y VACUUM en Delta tables <span class="tag-freq freq-high">🔥 muy frecuente</span></div><div class="concept-meta">Performance tuning de tablas Delta</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">-- Compactar archivos pequeños (mejora performance de lectura)
+OPTIMIZE lakehouse.schema.tabla
+
+-- Con Z-Order (co-localiza datos por columna para filtros más rápidos)
+OPTIMIZE lakehouse.schema.tabla ZORDER BY (fecha, region)
+
+-- Eliminar archivos viejos (default: retiene 7 días de historial)
+VACUUM lakehouse.schema.tabla
+
+-- Reducir retention (CUIDADO: rompe time travel si hay versiones activas)
+VACUUM lakehouse.schema.tabla RETAIN 168 HOURS</div>
+      <div class="tip"><strong>Cuándo correr OPTIMIZE:</strong> Después de ingestiones incrementales frecuentes que generan muchos archivos chicos. No es necesario correrlo manualmente si usás Fabric — tiene autocompaction.</div>
+      <div class="warn"><strong>VACUUM cuidado:</strong> Si reducís el retention a menos de 7 días, perdés la capacidad de hacer time travel a esas versiones. Nunca a 0 horas con procesos activos.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="optim">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-coral">Optimización</span> Capacity Metrics App y throttling <span class="tag-freq freq-med">⚡ frecuente</span></div><div class="concept-meta">Monitorear el consumo de tu capacidad Fabric</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Capacity Metrics App:</strong> App de Power BI que muestra el uso de CUs (Capacity Units) en tu tenant de Fabric. Permite identificar qué workloads consumen más y si hay throttling.</p>
+      <p><strong>Throttling:</strong> Cuando una workload consume demasiado, Fabric puede ralentizarla o pausarla para proteger la capacidad. Hay 3 niveles: Interactive delay → Background delay → Rejection.</p>
+      <div class="tip"><strong>Examen:</strong> Si preguntan "cómo monitorear el consumo de capacidad" → Capacity Metrics App. Si preguntan "por qué los jobs están lentos" → verificar throttling en Capacity Metrics App.</div>
+    </div>
+  </div>
+
+  <div class="concept-card" data-dp-domain="manage">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title"><span class="badge b-teal">Gestión</span> Git integration y deployment pipelines <span class="tag-freq freq-med">⚡ frecuente</span></div><div class="concept-meta">ALM y CI/CD en Microsoft Fabric</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <p><strong>Git integration:</strong> Podés conectar un workspace de Fabric a un repositorio Git (Azure DevOps o GitHub). Los cambios en items se sincronizan. Permite versioning de notebooks, pipelines, dataflows.</p>
+      <p><strong>Deployment pipelines:</strong> Flujo Dev → Test → Prod. Podés promover items entre stages con un botón o automáticamente. Podés configurar reglas por stage (ej: cambiar la fuente de datos entre ambientes).</p>
+      <div class="tip"><strong>Examen:</strong> Git integration = control de versiones de items. Deployment pipelines = promover entre ambientes. Son dos cosas distintas pero complementarias.</div>
+    </div>
+  </div>
+
+  </div><!-- end dp-concepts-list -->
+</div><!-- end dp-teoria view -->
+
+<!-- DP-700 QUIZ -->
+<div id="view-dp-quiz" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Práctica</div>
+  <div class="view-header">
+    <h2>Quiz DP-700 🧪</h2>
+    <p>Preguntas del estilo del examen real de Fabric. Escenarios prácticos.</p>
+  </div>
+  <div id="dp-quiz-wrap"></div>
+</div>
+
+<!-- DP-700 KQL -->
+<div id="view-dp-kql" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Referencia</div>
+  <div class="view-header">
+    <h2>KQL Cheatsheet ⚡</h2>
+    <p>Kusto Query Language — para Real-Time Intelligence en Fabric. Sintaxis clave del examen.</p>
+  </div>
+
+  <div class="card card-sm" style="margin-bottom:14px;border-color:rgba(124,58,237,0.3)">
+    <p style="font-size:13px;color:var(--muted)">KQL es el lenguaje de consulta para Eventhouses (antes KQL Databases) en Fabric. Se usa para analizar datos de streaming y series temporales. La sintaxis es <strong style="color:var(--text)">pipe-based</strong>: cada operador transforma el resultado anterior.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">Estructura básica y operadores fundamentales</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">// Estructura: Tabla | operador1 | operador2 | ...
+MiTabla
+| where Timestamp > ago(1h)          // filtrar por tiempo
+| where País == "Argentina"           // filtrar por valor
+| project Timestamp, País, Valor      // seleccionar columnas
+| order by Timestamp desc             // ordenar
+| take 100                            // limitar filas (= top 100)</div>
+      <div class="tip"><strong>ago():</strong> Función de tiempo relativo. ago(1h) = hace 1 hora. ago(7d) = hace 7 días. ago(30m) = hace 30 minutos.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">summarize — agregaciones y groupby</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">// Contar eventos por país
+MiTabla
+| summarize Cantidad = count() by País
+
+// Suma y promedio
+MiTabla
+| summarize TotalVentas = sum(Monto), Promedio = avg(Monto) by Región
+
+// Agrupar por intervalo de tiempo (bins)
+MiTabla
+| summarize Eventos = count() by bin(Timestamp, 1h)
+
+// Contar valores únicos
+MiTabla
+| summarize UsuariosUnicos = dcount(UsuarioID) by Fecha</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">extend, parse, split — columnas calculadas</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">// extend: agregar columna calculada
+MiTabla
+| extend MontoConIVA = Monto * 1.21
+| extend EsVIP = iff(Monto > 10000, "VIP", "Normal")
+
+// parse: extraer texto estructurado
+MiTabla
+| parse Mensaje with "Usuario:" Usuario " Acción:" Accion
+
+// tostring / toint / todatetime: conversión de tipos
+MiTabla
+| extend FechaReal = todatetime(FechaTexto)</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">join — combinar tablas en KQL</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">// Inner join (default)
+TablaA
+| join kind=inner (TablaB) on ClaveComun
+
+// Left outer join
+TablaA
+| join kind=leftouter (TablaB) on ClaveComun
+
+// Lookup (más eficiente para tablas de dimensión pequeñas)
+TablaHechos
+| lookup TablaClientes on ClienteID</div>
+      <div class="tip"><strong>Examen:</strong> Preferir <code>lookup</code> cuando la tabla derecha es pequeña (tabla de dimensión). Es más eficiente que join para ese caso.</div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header" onclick="toggleConcept(this)">
+      <div><div class="concept-title">render — visualizaciones en KQL</div></div>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="concept-body">
+      <div class="code-block">// Gráfico de línea temporal
+MiTabla
+| summarize Eventos = count() by bin(Timestamp, 1h)
+| render timechart
+
+// Gráfico de barras
+MiTabla
+| summarize Total = sum(Monto) by País
+| render barchart
+
+// Pie chart
+MiTabla
+| summarize Cantidad = count() by Categoría
+| render piechart</div>
+      <div class="tip"><strong>render</strong> siempre va al FINAL del query. Solo funciona en Queryset / KQL queryset, no en pipelines.</div>
+    </div>
+  </div>
+
+  <div class="card card-sm" style="margin-top:4px">
+    <h3>📋 Funciones KQL de examen — referencia rápida</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px">
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">count()</code> — total de filas</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">dcount(col)</code> — distintos (aprox)</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">avg / sum / min / max</code></div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">ago(1d)</code> — tiempo relativo</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">bin(col, 1h)</code> — agrupar tiempo</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">iff(cond, a, b)</code> — condicional</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">isnotnull(col)</code> — no nulo</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">strcat(a, b)</code> — concatenar strings</div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">startofday/month/year()</code></div>
+      <div style="font-size:12px;color:var(--muted)"><code style="color:#a78bfa">contains / startswith</code></div>
+    </div>
+  </div>
+</div>
+
+<!-- DP-700 RECURSOS -->
+<div id="view-dp-recursos" class="view">
+  <div class="eyebrow" style="color:#a78bfa">DP-700 · Links</div>
+  <div class="view-header">
+    <h2>Recursos gratuitos DP-700 🔗</h2>
+    <p>Todo ordenado por prioridad. Empezá de arriba hacia abajo.</p>
+  </div>
+
+  <div class="card">
+    <h3>🥇 Esenciales — empezá por acá</h3>
+    <div class="resource-row">
+      <div class="res-icon">📋</div>
+      <div>
+        <div class="res-title">Study Guide oficial DP-700 <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-700" target="_blank">learn.microsoft.com › study-guides/dp-700</a>
+        <div class="res-note">El índice exacto de temas del examen. Actualizado enero 2026. Tu checklist maestro.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🎓</div>
+      <div>
+        <div class="res-title">Curso oficial DP-700T00-A en Microsoft Learn <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/training/courses/dp-700t00" target="_blank">learn.microsoft.com/training/courses/dp-700t00</a>
+        <div class="res-note">5 learning paths con labs interactivos. La fuente más actualizada y alineada al examen.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">✅</div>
+      <div>
+        <div class="res-title">Practice Assessment oficial DP-700 <span class="badge b-green">GRATIS · MÁS IMPORTANTE</span></div>
+        <a class="res-url" href="https://learn.microsoft.com/credentials/certifications/fabric-data-engineer-associate" target="_blank">learn.microsoft.com › fabric-data-engineer-associate</a>
+        <div class="res-note">Simulacro oficial gratuito. Hacelo sin estudiar primero para ver dónde estás.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🆓</div>
+      <div>
+        <div class="res-title">Fabric Free Trial (60 días) <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://app.fabric.microsoft.com" target="_blank">app.fabric.microsoft.com → Start trial</a>
+        <div class="res-note">OBLIGATORIO. Sin trial no podés practicar. 60 días gratis con capacidad F64. Activalo hoy mismo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧪 Pruebas de práctica gratuitas</h3>
+    <div class="resource-row">
+      <div class="res-icon">📝</div>
+      <div>
+        <div class="res-title">ExamTopics DP-700 <span class="badge b-teal">GRATIS</span></div>
+        <a class="res-url" href="https://www.examtopics.com/exams/microsoft/dp-700/" target="_blank">examtopics.com/exams/microsoft/dp-700</a>
+        <div class="res-note">Preguntas reales con comentarios de la comunidad. Leé los comentarios — son oro.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📝</div>
+      <div>
+        <div class="res-title">ITExams DP-700 <span class="badge b-teal">GRATIS</span></div>
+        <a class="res-url" href="https://www.itexams.com/info/DP-700" target="_blank">itexams.com/info/DP-700</a>
+        <div class="res-note">Banco de preguntas actualizado junio 2026. Acceso gratuito.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 Material complementario</h3>
+    <div class="resource-row">
+      <div class="res-icon">📺</div>
+      <div>
+        <div class="res-title">DP-700 Microsoft Reactor playlist (YouTube) <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://www.youtube.com/playlist?list=PLlrxD0HtieHjU0Pm_PXU1BNFZSlEKMnbk" target="_blank">YouTube → buscar "DP-700 Get started data engineering Microsoft Fabric"</a>
+        <div class="res-note">Serie oficial de Microsoft con demos reales en Fabric. Muy recomendada para ver la UI antes de hacer labs.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🛠️</div>
+      <div>
+        <div class="res-title">Labs hands-on K21 Academy <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://k21academy.com/azure-data/microsoft-fabric-engineer-associate-dp-700-step-by-step-activity-guides-hands-on-labs/" target="_blank">k21academy.com → DP-700 hands-on labs</a>
+        <div class="res-note">Labs paso a paso: crear Lakehouse, Notebook PySpark, Delta tables, pipelines. Gratis sin registro.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">📖</div>
+      <div>
+        <div class="res-title">Serie Medium 20 artículos DP-700 <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://mbvyn.medium.com/how-to-prepare-for-the-dp-700-certification-with-microsoft-fabric-5d98ecde7f47" target="_blank">mbvyn.medium.com → DP-700 certification prep</a>
+        <div class="res-note">20 artículos cubriendo cada tema mayor con exam tips. Escrito por alguien que pasó el examen recientemente.</div>
+      </div>
+    </div>
+    <div class="resource-row">
+      <div class="res-icon">🌐</div>
+      <div>
+        <div class="res-title">MindMesh Academy — Study Guide gratuito DP-700 <span class="badge b-green">GRATIS</span></div>
+        <a class="res-url" href="https://www.mindmeshacademy.com/certifications/azure/dp-700-microsoft-fabric-data-engineer-associate/study-guide" target="_blank">mindmeshacademy.com › dp-700 study-guide</a>
+        <div class="res-note">Guía de estudio gratuita alineada a los objetivos de enero 2026. Muy detallada.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// NAV
+function go(id) {
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.remove('active');
+    v.style.display = '';
+  });
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(n => n.classList.remove('active'));
+  const target = document.getElementById('view-' + id);
+  if (target) { target.classList.add('active'); target.style.display = 'block'; }
+  const items = document.querySelectorAll('.nav-item');
+  items.forEach(item => {
+    if(item.getAttribute('onclick') && item.getAttribute('onclick').includes("'"+id+"'")) {
+      item.classList.add('active');
+    }
+  });
+  const bnav = document.getElementById('bnav-' + id);
+  if (bnav) bnav.classList.add('active');
+  const main = document.querySelector('.main');
+  if (main) main.scrollTo(0, 0);
+  window.scrollTo(0, 0);
+}
+
+// DAYS LEFT
+function getExamDate() {
+  try {
+    const saved = localStorage.getItem('pl300-exam-date');
+    if (saved) return new Date(saved);
+  } catch(e) {}
+  return new Date('2026-07-18');
+}
+
+function daysLeft() {
+  const exam = getExamDate();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.ceil((exam - today) / (1000*60*60*24));
+  const val = diff > 0 ? diff : 0;
+  document.getElementById('days-left').textContent = val;
+  document.getElementById('days-stat').textContent = val;
+  const label = exam.toLocaleDateString('es-AR', {day:'numeric', month:'long', year:'numeric'});
+  document.getElementById('exam-date-label').textContent = label;
+}
+
+function promptDate() {
+  const current = getExamDate().toISOString().split('T')[0];
+  const input = prompt('Ingresá la fecha de tu examen (YYYY-MM-DD):', current);
+  if (input && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    try { localStorage.setItem('pl300-exam-date', input); } catch(e) {}
+    daysLeft();
+  }
+}
+
+daysLeft();
+
+// CONCEPTS TOGGLE
+function toggleConcept(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+// FILTER CONCEPTS
+function filterConcepts(domain, el) {
+  document.querySelectorAll('.domain-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.concept-card').forEach(card => {
+    if(domain === 'all' || card.dataset.domain === domain) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// CHECKLIST
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  item.querySelector('.check-box').textContent = item.classList.contains('done') ? '✓' : '';
+  updateProgress();
+  saveChecks();
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.checklist-item').length;
+  const done = document.querySelectorAll('.checklist-item.done').length;
+  document.getElementById('done-stat').textContent = done;
+  const pct = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('mini-fill').style.width = pct + '%';
+  document.getElementById('mini-pct').textContent = done + ' / ' + total + ' temas';
+}
+
+function saveChecks() {
+  const states = {};
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    if(item.id) states[item.id] = item.classList.contains('done');
+  });
+  try { localStorage.setItem('pl300-checks', JSON.stringify(states)); } catch(e){}
+}
+
+function loadChecks() {
+  try {
+    const data = JSON.parse(localStorage.getItem('pl300-checks') || '{}');
+    Object.entries(data).forEach(([id, done]) => {
+      const item = document.getElementById(id);
+      if(item && done) {
+        item.classList.add('done');
+        item.querySelector('.check-box').textContent = '✓';
+      }
+    });
+    updateProgress();
+  } catch(e){}
+}
+loadChecks();
+
+// QUIZ
+const questions = [
+  {
+    q: "Tenés una tabla de ventas con millones de filas que debe actualizarse en tiempo real desde SQL Server. ¿Qué Storage Mode elegís?",
+    opts: ["Import","DirectQuery","Dual","Dataflow"],
+    ans: 1,
+    exp: "DirectQuery conecta directamente a la fuente y no almacena datos en el modelo, por eso refleja cambios en tiempo real. Import sería más rápido pero solo actualiza en el refresh programado."
+  },
+  {
+    q: "Un usuario quiere que las medidas calculadas de un período anterior siempre se calculen correctamente usando funciones de Time Intelligence. ¿Cuál es el requisito previo obligatorio?",
+    opts: ["Tener una tabla de fechas marcada como 'fecha' con fechas sin huecos","Usar CALCULATE con DATEADD en todas las medidas","Activar la relación bidireccional con la tabla de hechos","Configurar el formato de fecha en la tabla de hechos"],
+    ans: 0,
+    exp: "Las funciones Time Intelligence (TOTALYTD, SAMEPERIODLASTYEAR, DATEADD, etc.) requieren una tabla de fechas marcada como 'tabla de fechas' (Mark as date table) con una columna de tipo Date sin huecos entre fechas."
+  },
+  {
+    q: "Querés implementar RLS dinámico donde cada vendedor solo vea sus propias ventas. ¿Cuál función DAX usás en el filtro del rol?",
+    opts: ["USERNAME()","USERPRINCIPALNAME()","CURRENTUSER()","LOOKUPVALUE()"],
+    ans: 1,
+    exp: "USERPRINCIPALNAME() retorna el email del usuario autenticado en Power BI Service (formato user@domain.com). USERNAME() puede funcionar en Desktop pero no siempre en Service. En entornos de nube, siempre preferir USERPRINCIPALNAME()."
+  },
+  {
+    q: "Tenés una tabla Ventas (muchos) relacionada con Productos (1). Querés que al filtrar por categoría de producto, los visuales de ventas se filtren automáticamente. ¿Qué dirección de filtro cruzado configurás?",
+    opts: ["Both (bidireccional)","Single: de Ventas a Productos","Single: de Productos a Ventas","No es necesario configurar nada, es automático"],
+    ans: 2,
+    exp: "La dirección Single de la tabla '1' (Productos) a la tabla 'muchos' (Ventas) es el comportamiento por defecto y correcto. El filtro fluye desde Productos hacia Ventas, lo que permite filtrar ventas por cualquier atributo del producto."
+  },
+  {
+    q: "Necesitás calcular el porcentaje de ventas de cada producto sobre el total general, ignorando cualquier filtro de categoría activo. ¿Cuál medida DAX es correcta?",
+    opts: [
+      "% Total = DIVIDE([Ventas], SUM(Ventas[Monto]))",
+      "% Total = DIVIDE([Ventas], CALCULATE([Ventas], ALL(Productos)))",
+      "% Total = DIVIDE([Ventas], CALCULATE([Ventas], ALLEXCEPT(Productos, Productos[Categoría])))",
+      "% Total = DIVIDE([Ventas], CALCULATE([Ventas], FILTER(Productos, TRUE())))"
+    ],
+    ans: 1,
+    exp: "ALL(Productos) dentro de CALCULATE elimina todos los filtros de la tabla Productos, calculando el total general sin importar qué categorías estén seleccionadas. Luego DIVIDE calcula el porcentaje correctamente."
+  },
+  {
+    q: "Un colega publicó un reporte en un workspace compartido. Para que otro usuario pueda verlo, ese usuario necesita como mínimo:",
+    opts: ["Licencia Power BI Free","Licencia Power BI Pro (o el workspace en capacidad Premium)","Ser administrador del tenant","Licencia Microsoft 365 E3"],
+    ans: 1,
+    exp: "Para acceder a contenido en workspaces colaborativos (no 'Mi área de trabajo'), el consumidor necesita licencia Pro O el workspace debe estar en capacidad Premium (donde usuarios Free también pueden consumir contenido)."
+  },
+  {
+    q: "¿Cuál es la diferencia principal entre una medida (measure) y una columna calculada (calculated column) en DAX?",
+    opts: [
+      "Las medidas se almacenan en memoria, las columnas calculadas no",
+      "Las columnas calculadas se evalúan en el contexto de fila, las medidas en el contexto de filtro",
+      "Solo las medidas pueden usar CALCULATE",
+      "Las columnas calculadas son más rápidas que las medidas"
+    ],
+    ans: 1,
+    exp: "Las columnas calculadas se evalúan fila por fila cuando se actualiza el modelo (contexto de fila). Las medidas se evalúan dinámicamente cada vez que se usan en un visual, con el contexto de filtro actual (filtros, slicers, segmentación). Las medidas son más eficientes para cálculos dinámicos."
+  },
+  {
+    q: "Tenés datos en SQL Server on-premises. Publicás tu reporte en Power BI Service y necesitás que se actualice automáticamente cada día. ¿Qué necesitás configurar?",
+    opts: [
+      "Nada adicional, Power BI Service se conecta directamente",
+      "Un On-premises data gateway",
+      "Mover los datos a Azure SQL primero",
+      "Usar DirectQuery en vez de Import"
+    ],
+    ans: 1,
+    exp: "Para que Power BI Service pueda llegar a fuentes on-premises (dentro de la red local), necesitás un On-premises data gateway instalado en un servidor con acceso a esa red. El gateway actúa como puente seguro entre el Service y los datos locales."
+  },
+  {
+    q: "Querés mostrar las ventas acumuladas del año hasta la fecha actual. ¿Cuál función DAX usás?",
+    opts: ["DATEADD([Total Ventas], -1, YEAR)","TOTALYTD([Total Ventas], Fechas[Fecha])","CALCULATE([Total Ventas], SAMEPERIODLASTYEAR(Fechas[Fecha]))","SUMX(ALL(Fechas), [Total Ventas])"],
+    ans: 1,
+    exp: "TOTALYTD calcula el valor acumulado desde el inicio del año fiscal (o calendario) hasta la fecha más reciente en el contexto de filtro. Es equivalente a CALCULATE([Total Ventas], DATESYTD(Fechas[Fecha]))."
+  },
+  {
+    q: "¿Cuándo conviene usar Query Folding en Power Query?",
+    opts: [
+      "Siempre, independientemente de la fuente de datos",
+      "Cuando la fuente de datos soporta el lenguaje nativo (SQL, OData) para que las transformaciones se ejecuten en origen",
+      "Solo cuando hay más de 1 millón de filas",
+      "Solo con DirectQuery, no con Import"
+    ],
+    ans: 1,
+    exp: "Query Folding ocurre cuando la fuente soporta traducir las transformaciones de Power Query a su lenguaje nativo (SQL para bases de datos, OData para servicios REST). Esto permite que la fuente filtre, ordene y agregue antes de enviar datos, reduciendo la transferencia y mejorando el rendimiento."
+  }
+];
+
+let current = 0;
+let answered = false;
+let score = 0;
+
+function renderQuiz() {
+  const wrap = document.getElementById('quiz-wrap');
+  if(current >= questions.length) {
+    const pct = Math.round(score / questions.length * 100);
+    const color = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--amber)' : '#ef4444';
+    wrap.innerHTML = `
+      <div class="quiz-score-wrap">
+        <div class="score-big" style="color:${color}">${pct}%</div>
+        <div class="score-label">${score} de ${questions.length} correctas</div>
+        <p style="color:var(--muted);font-size:13px;margin:12px 0 20px">${pct >= 70 ? '¡Muy bien! Seguí practicando en ExamTopics para reforzar.' : 'Repasá los temas con respuestas incorrectas en la sección Teoría.'}</p>
+        <button class="btn btn-primary" onclick="restartQuiz()">Volver a intentarlo</button>
+      </div>`;
+    return;
+  }
+  const q = questions[current];
+  const letters = ['A','B','C','D'];
+  const optsHtml = q.opts.map((o,i) => `
+    <div class="quiz-opt" onclick="answer(${i})" id="opt-${i}">
+      <span class="opt-letter">${letters[i]}.</span> ${o}
+    </div>`).join('');
+  wrap.innerHTML = `
+    <div class="quiz-container">
+      <div class="quiz-progress-text" style="margin-bottom:12px;font-size:12px;color:var(--muted)">Pregunta ${current+1} de ${questions.length}</div>
+      <div class="pbar-bg" style="margin-bottom:16px"><div class="pbar-fill" style="width:${(current/questions.length)*100}%;background:var(--accent)"></div></div>
+      <div class="quiz-q">${q.q}</div>
+      ${optsHtml}
+      <div class="quiz-explain" id="quiz-explain"></div>
+      <div class="quiz-nav">
+        <span class="quiz-progress-text">Score: ${score} correctas</span>
+        <button class="btn btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Siguiente →</button>
+      </div>
+    </div>`;
+}
+
+function answer(i) {
+  if(answered) return;
+  answered = true;
+  const q = questions[current];
+  document.querySelectorAll('.quiz-opt').forEach(o => o.classList.add('disabled'));
+  const sel = document.getElementById('opt-'+i);
+  const cor = document.getElementById('opt-'+q.ans);
+  if(i === q.ans) {
+    sel.classList.add('correct');
+    score++;
+  } else {
+    sel.classList.add('wrong');
+    cor.classList.add('correct');
+  }
+  const exp = document.getElementById('quiz-explain');
+  exp.innerHTML = `<strong>${i === q.ans ? '✓ Correcto.' : '✗ Incorrecto.'}</strong> ${q.exp}`;
+  exp.classList.add('show');
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function nextQ() {
+  current++;
+  answered = false;
+  renderQuiz();
+}
+
+function restartQuiz() {
+  current = 0; answered = false; score = 0;
+  renderQuiz();
+}
+
+renderQuiz();
+
+// ========== DP-700 EXAM SWITCH ==========
+let currentExam = 'pl300';
+
+function switchExam(exam) {
+  currentExam = exam;
+  document.getElementById('sidebar-pl300').style.display = exam === 'pl300' ? '' : 'none';
+  document.getElementById('sidebar-dp700').style.display = exam === 'dp700' ? '' : 'none';
+  document.getElementById('bnav-pl300').style.display = exam === 'pl300' ? '' : 'none';
+  document.getElementById('bnav-dp700').style.display = exam === 'dp700' ? '' : 'none';
+  document.getElementById('etab-pl300').className = 'exam-tab' + (exam === 'pl300' ? ' active' : '');
+  document.getElementById('etab-dp700').className = 'exam-tab' + (exam === 'dp700' ? ' active' : '');
+  if (exam === 'pl300') {
+    go('dashboard');
+  } else {
+    go('dp-dashboard');
+    daysLeftDp();
+    setTimeout(renderDpQuiz, 50);
+  }
+}
+
+// DP-700 DAYS LEFT
+function getDpExamDate() {
+  try {
+    const saved = localStorage.getItem('dp700-exam-date');
+    if (saved) return new Date(saved);
+  } catch(e) {}
+  return new Date('2026-08-08');
+}
+
+function daysLeftDp() {
+  const exam = getDpExamDate();
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.ceil((exam - today) / (1000*60*60*24));
+  const val = diff > 0 ? diff : 0;
+  const el1 = document.getElementById('dp-days-left');
+  const el2 = document.getElementById('dp-days-stat');
+  if (el1) el1.textContent = val;
+  if (el2) el2.textContent = val;
+}
+
+function promptDpDate() {
+  const current = getDpExamDate().toISOString().split('T')[0];
+  const input = prompt('Fecha de examen DP-700 (YYYY-MM-DD):', current);
+  if (input && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    try { localStorage.setItem('dp700-exam-date', input); } catch(e) {}
+    daysLeftDp();
+  }
+}
+
+// DP-700 FILTER CONCEPTS
+function filterDpConcepts(domain, el) {
+  document.querySelectorAll('.domain-bar .domain-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('[data-dp-domain]').forEach(card => {
+    card.style.display = (domain === 'all' || card.dataset.dpDomain === domain) ? '' : 'none';
+  });
+}
+
+// DP-700 QUIZ
+const dpQuestions = [
+  {
+    q: "Tu empresa tiene petabytes de datos en Amazon S3. Querés analizarlos desde Fabric sin copiarlos ni moverlos. ¿Cuál es la solución correcta?",
+    opts: ["Crear un pipeline Copy Activity para importar los datos al Lakehouse", "Crear un OneLake Shortcut apuntando al bucket de S3", "Usar DirectQuery desde un Semantic Model hacia S3", "Configurar un gateway on-premises para acceder a S3"],
+    ans: 1,
+    exp: "Los OneLake Shortcuts permiten acceder a datos en Amazon S3 (y ADLS Gen2, Google Cloud Storage) directamente desde el Lakehouse sin copiarlos. Los datos quedan en S3 y Fabric los ve como si fueran tablas locales. Copy Activity sería la opción si se necesita mover los datos."
+  },
+  {
+    q: "¿Cuándo deberías usar un Fabric Warehouse en lugar de un Lakehouse?",
+    opts: [
+      "Cuando necesitás procesar datos no estructurados con PySpark",
+      "Cuando necesitás soporte completo de T-SQL, alta concurrencia y schema rígido",
+      "Cuando los datos vienen de un stream en tiempo real",
+      "Cuando los datos son CSV y no necesitás schema"
+    ],
+    ans: 1,
+    exp: "El Warehouse de Fabric ofrece T-SQL completo (DDL + DML), alta concurrencia de consultas y schema enforcement. Es la opción correcta para equipos de BI con SQL, cargas OLAP tradicionales y cuando se necesita mayor control de transacciones. El Lakehouse es mejor para datos variados, PySpark y esquemas flexibles."
+  },
+  {
+    q: "Estás diseñando un Lakehouse. Los datos crudos llegan de múltiples fuentes sin limpiar. ¿En qué capa de la Medallion Architecture los almacenás primero?",
+    opts: ["Gold — para que estén listos para BI inmediatamente", "Silver — para limpiarlos en el mismo paso", "Bronze — datos raw sin modificar", "Platinum — capa de staging temporal"],
+    ans: 2,
+    exp: "La capa Bronze almacena los datos crudos exactamente como llegaron de la fuente. Esto permite reprocesar si hay errores, mantener historial completo y auditoría. La limpieza ocurre en Silver y la curación para BI en Gold. 'Platinum' no es una capa estándar de Medallion."
+  },
+  {
+    q: "Tenés una Delta table con millones de archivos Parquet pequeños generados por ingestión incremental frecuente. Las consultas son lentas. ¿Cuál comando mejora la performance de lectura?",
+    opts: ["VACUUM delta.tabla", "OPTIMIZE delta.tabla", "REFRESH delta.tabla", "COMPACT delta.tabla"],
+    ans: 1,
+    exp: "OPTIMIZE compacta los muchos archivos pequeños en archivos más grandes optimizados para lectura. Esto reduce el overhead de I/O al leer la tabla. VACUUM elimina archivos ANTIGUOS que ya no son necesarios (libera espacio) pero no mejora performance de lectura. REFRESH y COMPACT no son comandos Delta estándar."
+  },
+  {
+    q: "Un usuario de un workspace necesita LEER datos de un Lakehouse específico sin tener rol en ese workspace. ¿Cuál es la forma correcta de darle acceso?",
+    opts: ["Agregarlo como Viewer al workspace completo", "Darle permisos a nivel de item (ReadData permission) directamente en el Lakehouse", "Darle acceso de Admin para que pueda ver todo", "No es posible — siempre necesita rol en el workspace"],
+    ans: 1,
+    exp: "Fabric permite permisos a nivel de item individual. Podés dar 'ReadData' permission directamente en el Lakehouse sin agregar al usuario al workspace. Esto aplica el principio de mínimo privilegio — el usuario solo ve ese Lakehouse, no otros items del workspace."
+  },
+  {
+    q: "En KQL, querés ver la cantidad de eventos por hora en las últimas 24 horas. ¿Cuál query es correcta?",
+    opts: [
+      "MiTabla | where Timestamp > ago(24h) | groupby bin(Timestamp, 1h) | count()",
+      "MiTabla | where Timestamp > ago(24h) | summarize Eventos = count() by bin(Timestamp, 1h)",
+      "MiTabla | filter last(24h) | aggregate count() by hour(Timestamp)",
+      "SELECT count(*) FROM MiTabla WHERE Timestamp > DATEADD(hour,-24,GETDATE()) GROUP BY DATEPART(hour,Timestamp)"
+    ],
+    ans: 1,
+    exp: "KQL usa pipe (|) para encadenar operadores. 'summarize' es el operador de agregación (equivalente a GROUP BY). 'bin(col, 1h)' agrupa timestamps en intervalos de 1 hora. 'ago(24h)' calcula el timestamp de hace 24 horas. La opción D es T-SQL, no KQL."
+  },
+  {
+    q: "¿Cuál es la diferencia entre un Data Pipeline y un Dataflow Gen2 en Microsoft Fabric?",
+    opts: [
+      "Son lo mismo, solo tienen nombres diferentes",
+      "Pipeline orquesta actividades y puede llamar Notebooks/Dataflows. Dataflow Gen2 transforma datos visualmente con Power Query",
+      "Dataflow Gen2 solo funciona con datos en tiempo real. Pipeline solo con batch",
+      "Pipeline es para datos estructurados. Dataflow Gen2 para datos no estructurados"
+    ],
+    ans: 1,
+    exp: "El Pipeline (Data Factory en Fabric) es un orquestador: encadena actividades como Copy Data, llamadas a Notebooks, Dataflows, condiciones If/Else, bucles ForEach. El Dataflow Gen2 es una herramienta de transformación visual basada en Power Query (M). Se pueden combinar: un Pipeline que ejecuta un Dataflow Gen2 y luego llama a un Notebook."
+  },
+  {
+    q: "Querés que los datos de tu Lakehouse se actualicen automáticamente desde una fuente REST API cada hora. ¿Cuál componente de Fabric usás?",
+    opts: ["Eventstream — para conectar APIs REST", "Data Pipeline con Copy Activity + trigger programado por hora", "OneLake Shortcut apuntando a la API", "Real-Time Intelligence con KQL"],
+    ans: 1,
+    exp: "Un Data Pipeline con Copy Activity puede conectarse a APIs REST como fuente. Luego se configura un trigger de schedule (cada hora) para ejecutarlo automáticamente. Eventstream es para datos de streaming continuo (eventos), no para REST APIs con polling. Los Shortcuts son para almacenamiento, no APIs."
+  },
+  {
+    q: "Tu tabla Delta en el Lakehouse tiene 6 meses de historial. Querés leer cómo estaba la tabla hace 30 días. ¿Cuál feature usás?",
+    opts: ["VACUUM con retention de 30 días", "Time Travel con VERSION AS OF o TIMESTAMP AS OF", "Crear un snapshot manual de la tabla", "Usar incremental refresh en el Semantic Model"],
+    ans: 1,
+    exp: "Delta Lake soporta Time Travel: podés leer versiones históricas de una tabla con 'VERSION AS OF <número>' o 'TIMESTAMP AS OF <fecha>'. Funciona porque Delta guarda el transaction log con todas las versiones. Requiere que VACUUM no haya eliminado esos archivos (el retention default es 7 días, así que para 30 días tendrías que haberlo configurado)."
+  },
+  {
+    q: "¿Cuál es el propósito del 'Direct Lake mode' en Microsoft Fabric?",
+    opts: [
+      "Conectar Power BI directamente a una fuente on-premises sin gateway",
+      "Cargar datos Delta del Lakehouse en memoria para consultas rápidas sin necesidad de Import ni DirectQuery",
+      "Sincronizar datos entre dos Lakehouses de Fabric en tiempo real",
+      "Reemplazar a los Shortcuts de OneLake"
+    ],
+    ans: 1,
+    exp: "Direct Lake es un modo de conexión único de Fabric que carga columnas de tablas Delta directamente en la memoria analítica del engine sin el overhead de Import (no copia datos) ni la latencia de DirectQuery (no consulta al origen por cada visual). Es el modo más rápido para Semantic Models sobre datos en Fabric Lakehouse."
+  }
+];
+
+let dpCurrent = 0, dpAnswered = false, dpScore = 0;
+
+function renderDpQuiz() {
+  const wrap = document.getElementById('dp-quiz-wrap');
+  if (!wrap) return;
+  if (dpCurrent >= dpQuestions.length) {
+    const pct = Math.round(dpScore / dpQuestions.length * 100);
+    const color = pct >= 70 ? 'var(--green)' : pct >= 50 ? 'var(--amber)' : '#ef4444';
+    wrap.innerHTML = `<div class="quiz-score-wrap">
+      <div class="score-big" style="color:${color}">${pct}%</div>
+      <div class="score-label">${dpScore} de ${dpQuestions.length} correctas</div>
+      <p style="color:var(--muted);font-size:13px;margin:12px 0 20px">${pct >= 70 ? '¡Muy bien! Seguí con ExamTopics DP-700 para más práctica.' : 'Repasá los conceptos de Fabric en la sección Conceptos.'}</p>
+      <button class="btn btn-primary" onclick="restartDpQuiz()">Volver a intentarlo</button>
+    </div>`;
+    return;
+  }
+  const q = dpQuestions[dpCurrent];
+  const letters = ['A','B','C','D'];
+  const optsHtml = q.opts.map((o,i) => `
+    <div class="quiz-opt" onclick="dpAnswer(${i})" id="dpopt-${i}">
+      <span class="opt-letter">${letters[i]}.</span> ${o}
+    </div>`).join('');
+  wrap.innerHTML = `<div class="quiz-container">
+    <div class="quiz-progress-text" style="margin-bottom:12px;font-size:12px;color:var(--muted)">Pregunta ${dpCurrent+1} de ${dpQuestions.length}</div>
+    <div class="pbar-bg" style="margin-bottom:16px"><div class="pbar-fill" style="width:${(dpCurrent/dpQuestions.length)*100}%;background:#7c3aed"></div></div>
+    <div class="quiz-q">${q.q}</div>
+    ${optsHtml}
+    <div class="quiz-explain" id="dp-quiz-explain"></div>
+    <div class="quiz-nav">
+      <span class="quiz-progress-text">Score: ${dpScore} correctas</span>
+      <button class="btn btn-primary" id="dp-next-btn" onclick="dpNextQ()" style="display:none;background:#7c3aed;border-color:#6d28d9">Siguiente →</button>
+    </div>
+  </div>`;
+}
+
+function dpAnswer(i) {
+  if (dpAnswered) return;
+  dpAnswered = true;
+  const q = dpQuestions[dpCurrent];
+  document.querySelectorAll('.quiz-opt').forEach(o => o.classList.add('disabled'));
+  const sel = document.getElementById('dpopt-'+i);
+  const cor = document.getElementById('dpopt-'+q.ans);
+  if (i === q.ans) { sel.classList.add('correct'); dpScore++; }
+  else { sel.classList.add('wrong'); cor.classList.add('correct'); }
+  const exp = document.getElementById('dp-quiz-explain');
+  exp.innerHTML = `<strong>${i === q.ans ? '✓ Correcto.' : '✗ Incorrecto.'}</strong> ${q.exp}`;
+  exp.classList.add('show');
+  document.getElementById('dp-next-btn').style.display = 'inline-block';
+}
+
+function dpNextQ() { dpCurrent++; dpAnswered = false; renderDpQuiz(); }
+function restartDpQuiz() { dpCurrent = 0; dpAnswered = false; dpScore = 0; renderDpQuiz(); }
+</script>
+</body>
+</html>
